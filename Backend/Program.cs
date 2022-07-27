@@ -17,8 +17,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -31,21 +31,20 @@ using (var db = new Database())
 {
     db.Database.EnsureCreated();
     /*db.Servers.Add(new Server("Krzyśland", "krzysland.tk", false, "Krzyśland - serwer Minecraft"));
-    db.Servers.Add(new Server("Hypixel", "mc.hypixel.net", true, "Hypixel MC server"));*/
+    db.Servers.Add(new Server("Hypixel", "mc.hypixel.net", true, "Hypixel MC server"));
     db.SaveChanges();
     var server = db.Servers.FirstOrDefault(s => s.Name == "Krzyśland");
-    /*server.Tags.Add(new Tag("Survival"));
+    server.Tags.Add(new Tag("Survival"));
     server.Tags.Add(new Tag("Building"));
     server.Tags.Add(new Tag("Mods"));
-    server.Tags.Add(new Tag("Fabric"));*/
+    server.Tags.Add(new Tag("Fabric"));
     var server2 = db.Servers.FirstOrDefault(s => s.Name == "Hypixel");
-    /*server2.Tags.Add(new Tag("Minigames"));
+    server2.Tags.Add(new Tag("Minigames"));
     server2.Tags.Add(new Tag("Skyblock"));
     server2.Tags.Add(new Tag("Bedwars"));
     db.SaveChanges();*/
-    ServerInfoUpdater.UpdateServerInfo(server);
-    ServerInfoUpdater.UpdateServerInfo(server2);
 }
 
+ServerInfoUpdater.Start();
 
-//app.Run();
+app.Run();

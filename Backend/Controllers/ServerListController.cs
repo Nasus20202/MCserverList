@@ -16,7 +16,7 @@ public class ServerListController : Controller
         var servers = new List<Server>();
         using (var db = new Database.Database())
         {
-            servers = db.Servers.Include(s => s.Tags).OrderBy(s => s.Players).Skip(page * amount).Take(amount).ToList();
+            servers = db.Servers.Include(s => s.Tags).OrderByDescending(s => s.Players).Skip(page * amount).Take(amount).ToList();
         }
 
         return Json(servers);
@@ -24,8 +24,9 @@ public class ServerListController : Controller
 
     [HttpPost]
     [Route("/servers")]
-    public IActionResult CreateServer(string name, string url, bool premium = true, string about = "", List<string>? tags = null)
+    public IActionResult CreateServer([FromBody] string name,[FromBody] string url,[FromBody] bool premium = true,[FromBody] string about = "",[FromBody] List<string>? tags = null)
     {
+        url = url.Trim();
         var server = new Server(name, url, premium, about);
         int dots = url.Split('.').Length - 1;
         if (dots is < 1 or > 2)
@@ -36,6 +37,14 @@ public class ServerListController : Controller
             {
                 return Conflict();
             }
+            var serverInfo = ServerInfoUpdater.GetServerInfo(server);
+            if (serverInfo is null)
+                return NotFound("Server " + server.Url + " is offline or query is not enabled");
+            server.Image = serverInfo.Image; 
+            server.Motd = serverInfo.Motd;
+            server.Version = serverInfo.Version;
+            server.Players = serverInfo.Players;
+            server.MaxPlayers = serverInfo.MaxPlayers;
             db.Servers.Add(server);
             if (tags is not null)
             {
@@ -45,9 +54,28 @@ public class ServerListController : Controller
                     server.Tags.Add(tag);
                 }
             }
-            //db.SaveChanges();
+            db.SaveChanges();
         }
+        //ServerInfoUpdater.UpdateServerInfo(server);
 
         return Created(server.Name, server);
+    }
+
+    [HttpGet]
+    [Route("/servers/img/{filename}")]
+    public IActionResult GetServerIcon(string filename)
+    {
+        filename = filename.Split(".")[0];
+        using (var db = new Database.Database())
+        {
+            Guid guid;
+            if (!Guid.TryParse(filename, out guid))
+                return BadRequest();
+            var server = db.Servers.FirstOrDefault(s => s.ServerId == guid);
+            if (server is null)
+                return NotFound();
+            byte[] bytes = Convert.FromBase64String(server.Image.Split(',')[1]);
+            return File(bytes, "image/png");
+        }
     }
 }

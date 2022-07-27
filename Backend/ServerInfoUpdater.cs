@@ -15,6 +15,31 @@ public class ServerInfoUpdater
     private static List<byte> _buffer;
     private static int _offset;
 
+
+    public static void Start()
+    {
+        Task task = new Task(UpdaterThread);
+        task.Start();
+    }
+    private static void UpdaterThread()
+    {
+        while (true)
+        {
+            List<Server> servers;
+            using (var db = new Database.Database())
+            {
+                servers = db.Servers.ToList();
+            }
+            foreach (var server in servers)
+            {
+                UpdateServerInfo(server);
+                Thread.Sleep(1000);
+                //Console.WriteLine("Updated " + server.Name);
+            }
+            Thread.Sleep(3600000);
+        }
+    }
+    
     public static void UpdateServerInfo(Server server)
     {
         var data = GetServerInfo(server);
@@ -33,7 +58,7 @@ public class ServerInfoUpdater
         db.SaveChanges();
     }
     
-    private static ServerData? GetServerInfo(Server server)
+    public static ServerData? GetServerInfo(Server server)
     {
         var client = new TcpClient();
         var task = client.ConnectAsync(server.Url, 25565);
@@ -86,19 +111,39 @@ public class ServerInfoUpdater
             var version = response?["version"]["name"];
             var players = response?["players"]["online"];
             var maxPlayers = response?["players"]["max"];
-            var motd = response?["favicon"];
+            var desc = response?["description"];
+            // giga tasty 
+            JToken motd = desc;
+            if (desc.ToString().Contains("{"))
+            {
+                var descObj = (JObject)desc;
+                if (descObj.ContainsKey("extra"))
+                {
+                    string value = "";
+                    foreach (var obj in descObj["extra"])
+                    {
+                        value += obj["text"];
+                    }
+
+                    motd = JsonConvert.SerializeObject(value, Formatting.Indented);
+                }
+                else if (descObj.ContainsKey("text"))
+                    motd = (JToken) descObj["text"];
+            }
+
             var image = response?["favicon"];
             serverData = new ServerData(version.Value<string>(), motd.Value<string>(), players.Value<int>(), maxPlayers.Value<int>(), image.Value<string>());
         }
-        catch (JsonReaderException)
+        catch (Exception e)
         {
-            return null; //Data is corrupted
+            Console.WriteLine(e);
+            return null; //Data is corrupted... or to be clear, my code is bugged
         }
 
         return serverData;
     }
 
-    private class ServerData
+    public class ServerData
     {
         public string Version { get; set; }
         public string Motd { get; set; }
