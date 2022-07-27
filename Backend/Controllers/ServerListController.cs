@@ -24,9 +24,9 @@ public class ServerListController : Controller
 
     [HttpPost]
     [Route("/servers")]
-    public IActionResult CreateServer(string name, string url, bool premium = true, string about = "", string version = "1.0", List<string>? tags = null)
+    public IActionResult CreateServer(string name, string url, bool premium = true, string about = "", List<string>? tags = null)
     {
-        var server = new Server(name, url, premium, about, version);
+        var server = new Server(name, url, premium, about);
         int dots = url.Split('.').Length - 1;
         if (dots is < 1 or > 2)
             return BadRequest("Not a valid URL");
