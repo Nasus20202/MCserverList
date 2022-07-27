@@ -18,24 +18,37 @@ public class ServerListController : Controller
         {
             servers = db.Servers.Include(s => s.Tags).OrderByDescending(s => s.Players).Skip(page * amount).Take(amount).ToList();
         }
-
+        foreach (var server in servers)
+        {
+            server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+        }
         return Json(servers);
+    }
+    
+    public class CreateServerModel
+    {
+        public string Name { get; set; } = "";
+        public string Url { get; set; } = "";
+        public bool Premium { get; set; } = false;
+        public string About { get; set; } = "";
+        public List<string>? Tags { get; set; } = null;
     }
 
     [HttpPost]
     [Route("/servers")]
-    public IActionResult CreateServer([FromBody] string name,[FromBody] string url,[FromBody] bool premium = true,[FromBody] string about = "",[FromBody] List<string>? tags = null)
+    public IActionResult CreateServer([FromBody] CreateServerModel model)
     {
-        url = url.Trim();
-        var server = new Server(name, url, premium, about);
-        int dots = url.Split('.').Length - 1;
-        if (dots is < 1 or > 2)
-            return BadRequest("Not a valid URL");
+        var server = new Server(model.Name, model.Url.Trim(), model.Premium, model.About);
+        int dots = server.Url.Split('.').Length - 1;
+        if (dots is < 1 or > 2 || server.Url.Length > 2048)
+            return BadRequest(server.Url + " is not a valid URL");
+        if (server.About.Length > 8192)
+            return BadRequest("About server should can have up to 8192 characters (you have " + server.About.Length + ")");
         using (var db = new Database.Database())
         {
-            if (db.Servers.Where(s => s.Url == url).ToList().Any())
+            if (db.Servers.Where(s => s.Url == server.Url).ToList().Any())
             {
-                return Conflict();
+                return Conflict(server.Url + " is already in our database");
             }
             var serverInfo = ServerInfoUpdater.GetServerInfo(server);
             if (serverInfo is null)
@@ -46,9 +59,9 @@ public class ServerListController : Controller
             server.Players = serverInfo.Players;
             server.MaxPlayers = serverInfo.MaxPlayers;
             db.Servers.Add(server);
-            if (tags is not null)
+            if (model.Tags is not null)
             {
-                foreach (var tagName in tags)
+                foreach (var tagName in model.Tags)
                 {
                     var tag = new Tag(tagName);
                     server.Tags.Add(tag);
