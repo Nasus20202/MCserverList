@@ -16,7 +16,7 @@ public class ServerListController : Controller
         var servers = new List<Server>();
         using (var db = new Database.Database())
         {
-            servers = db.Servers.Include(s => s.Tags).OrderByDescending(s => s.Players).Skip(page * amount).Take(amount).ToList();
+            servers = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1)).Include(s => s.Tags).OrderByDescending(s => s.Players).Skip(page * amount).Take(amount).ToList();
         }
         foreach (var server in servers)
         {

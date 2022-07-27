@@ -136,7 +136,7 @@ public class ServerInfoUpdater
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(server.Url + " : " + e.Message);
             return null; //Data is corrupted... or to be clear, my code is bugged
         }
 
