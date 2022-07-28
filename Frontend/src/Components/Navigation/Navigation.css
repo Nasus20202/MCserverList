@@ -1,0 +1,10 @@
+a {
+    text-decoration: none;
+}
+
+.links {
+    color: rgb(145, 161, 177);
+}
+.links:hover {
+    color: lightgray
+}
