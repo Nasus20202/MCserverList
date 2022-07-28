@@ -93,6 +93,21 @@ public class ServerListController : Controller
     }
 
     [HttpGet]
+    [Route("/servers/{id:guid}")]
+    public IActionResult GetServerById(Guid id)
+    {
+        Server? server;
+        using (var db = new Database.Database())
+        {
+            server = db.Servers.Include(s => s.Tags).FirstOrDefault(s => s.ServerId == id);
+        }
+        if (server == null)
+            return NotFound();
+        server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+        return Json(server);
+    }
+    
+    [HttpGet]
     [Route("/servers/random")]
     public IActionResult GetRandomServer()
     {

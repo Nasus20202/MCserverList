@@ -2,7 +2,7 @@
     font-size: inherit;
     color: #e6e6e6;
     margin: auto;
-    height: 150px;
+    min-height: 150px;
     border-radius: 10px;
     margin-bottom: 20px;
     background-color: #333333;
@@ -18,7 +18,7 @@
 }
 
 .serverCard-light {
-    color: black;
+    color: #555;
     background-color: #f2f2f2;
 }
 
@@ -27,20 +27,33 @@
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
+.serverCard-image-container{
+    padding-left: 0px;
+    border-radius: 10px 0px 0px 10px;
+    background: #404040;
+    max-width: 150px;
+    position: absolute;
+    height: 100%;
+}
+
+.serverCard-light .serverCard-image-container{
+    background-color: #e0e0e0 !important;
+}
+
 .serverCard-image{
-    margin-top: 10px;
-    width: 130px;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
+    width: 150px;
 }
 
 .serverCard-name{
-    font-size: 1.2em;
+    font-size: 1.4em;
     font-weight: bold;
 }
 
 .serverCard-motd{
     font-size: 0.8em;
     color: #999999;
+    height: 100%; overflow: auto;
 }
 
 .serverCard-players{
@@ -50,3 +63,17 @@
     right: 10px;
 
 }
+.serverCard-place{
+    font-size: 0.8em;
+}
+
+@media screen and (max-width: 576px) {
+}
+
+.serverCard-content{
+    position: relative;
+    left: 155px;
+    
+    max-width: calc(100% - 160px);
+}
+    
