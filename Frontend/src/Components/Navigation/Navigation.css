@@ -4,7 +4,20 @@ a {
 
 .links {
     color: rgb(145, 161, 177);
+    transition: 0.3s;
+    padding-left: 12px;
 }
 .links:hover {
-    color: lightgray
+    color: lightgray;
+    transition: 0.3s;
+}
+
+.brand {
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+.brand:hover {
+    color: lightgray;
+    transition: 0.3s;
 }

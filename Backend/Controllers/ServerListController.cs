@@ -9,8 +9,7 @@ namespace ServerList.Controllers;
 public class ServerListController : Controller
 {
     [HttpGet]
-    [Route("/servers/{page:int}")]
-    [Route("/servers")]
+    [Route("/servers/{page:int?}")]
     public IActionResult GetServers(int page = 0, [FromQuery] int amount = 25)
     {
         var servers = new List<Server>();
@@ -22,6 +21,7 @@ public class ServerListController : Controller
         {
             server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
         }
+
         return Json(servers);
     }
     
@@ -91,4 +91,32 @@ public class ServerListController : Controller
             return File(bytes, "image/png");
         }
     }
+
+    [HttpGet]
+    [Route("/servers/random")]
+    public IActionResult GetRandomServer()
+    {
+        Server server;
+        using (var db = new Database.Database())
+        {
+            var servers = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1)).Include(s => s.Tags).ToList();
+            var random = new Random();
+            server = servers[random.Next(servers.Count)];
+        }
+        server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+        return Json(server);
+    }
+    
+    [HttpGet]
+    [Route("/servers/count")]
+    public IActionResult GetServerCount()
+    {
+        int count;
+        using (var db = new Database.Database())
+        {
+            count = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1)).Include(s => s.Tags).ToList().Count;
+        }
+        return Ok(count);
+    }
+    
 }

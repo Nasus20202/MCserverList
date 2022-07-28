@@ -46,6 +46,9 @@ class App extends React.Component {
     <UrlContext.Provider value={this.state.url}>
       <NameContext.Provider value={this.state.name}>
       <Navigation />
+      <div  class="app">
+
+      </div>
       {this.state.name}<br/>
       {this.state.url}<br />
       {button}

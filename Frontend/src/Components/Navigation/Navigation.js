@@ -14,16 +14,16 @@ class Navigation extends React.Component {
                 {(url) => (
                 <NameContext.Consumer>
                 {(name) => (
-                    <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+                    <Navbar  fixed="top" collapseOnSelect expand="sm" bg="dark" variant="dark" className='topNavbar'>
                     <Container>
-                    <Link to="/"><Navbar.Brand>{name}</Navbar.Brand></Link>
+                    <Navbar.Brand><Link to="/" className='minecraft brand'><img src="logo192.png" width="35" height="35" className="d-inline-block align-top" alt=""/>{' '}{name}</Link></Navbar.Brand>
                       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                       <Navbar.Collapse id="responsive-navbar-nav">
                         <div className="me-auto">
                         </div>
                         <Nav>
-                          <Nav.Link><Link className='links' to="/new">Submit your server!</Link></Nav.Link>
-                          <Nav.Link><Link className='links' to="/ADEAAA2D-551F-4B8A-BFF5-B0D91BE4B8D1">About {name}</Link></Nav.Link>
+                          <Nav><Link className='links' to="/new">Submit your server!</Link></Nav>
+                          <Nav><Link className='links' to="/ADEAAA2D-551F-4B8A-BFF5-B0D91BE4B8D1">About {name}</Link></Nav>
                         </Nav>
                       </Navbar.Collapse>
                     </Container>
