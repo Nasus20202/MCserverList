@@ -5,9 +5,7 @@ import Cookies from 'js-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from './Components/Navigation/Navigation';
 import { Outlet } from "react-router-dom";
-
-const UrlContext = React.createContext(null);
-const NameContext = React.createContext(null);
+import Container from 'react-bootstrap/esm/Container';
 
 class App extends React.Component {
   constructor(props){
@@ -15,7 +13,7 @@ class App extends React.Component {
     this.state = {
       url: config.url,
       name: config.name,
-      mode: Cookies.get('mode') || 'light'
+      mode: Cookies.get('mode') || 'dark'
     }
     this.handleThemeChange = this.handleThemeChange.bind(this);
     if(this.state.mode === "dark")
@@ -40,24 +38,16 @@ class App extends React.Component {
   }
 
   render(){ 
-    const button = <div onClick={this.handleThemeChange}>{this.state.mode === "light" ? "Dark mode" : "Light mode"}</div> 
     document.title = this.state.name;
     return (
-    <UrlContext.Provider value={this.state.url}>
-      <NameContext.Provider value={this.state.name}>
-      <Navigation />
-      <div  class="app">
-
+      <div>
+        <Navigation toggleTheme={this.handleThemeChange} theme={this.state.mode}/>
+        <Container className="app">
+          <Outlet />
+        </Container>
       </div>
-      {this.state.name}<br/>
-      {this.state.url}<br />
-      {button}
-      <Outlet />
-      </NameContext.Provider>
-    </UrlContext.Provider>
   );
   }
 }
 
 export default App;
-export { UrlContext, NameContext };
