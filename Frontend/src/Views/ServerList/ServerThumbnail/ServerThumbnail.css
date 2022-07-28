@@ -1,0 +1,10 @@
+.serverCard {
+    height: 150px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #333333;
+}
+
+.serverCard-light {
+    background-color: #f2f2f2;
+}

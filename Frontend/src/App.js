@@ -7,6 +7,8 @@ import Navigation from './Components/Navigation/Navigation';
 import { Outlet } from "react-router-dom";
 import Container from 'react-bootstrap/esm/Container';
 
+const ThemeContext = React.createContext('dark');
+
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -41,13 +43,16 @@ class App extends React.Component {
     document.title = this.state.name;
     return (
       <div>
+        <ThemeContext.Provider value={this.state.mode}>
         <Navigation toggleTheme={this.handleThemeChange} theme={this.state.mode}/>
         <Container className="app">
-          <Outlet />
+          <Outlet/>
         </Container>
+        </ThemeContext.Provider>
       </div>
   );
   }
 }
 
 export default App;
+export { ThemeContext };
