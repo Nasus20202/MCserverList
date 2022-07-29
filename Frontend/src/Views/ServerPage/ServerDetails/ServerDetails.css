@@ -2,36 +2,68 @@
     border-radius: 10px;
 }
 
-.about-details{
+.detail-info{
     font-size: 1.8em;
-    margin-bottom: 10px;
-    max-height: 5vh;
+    display: flex;
+    justify-content: space-between;
 }
+
 
 .detailsMotd{
     margin-top: 5vh;
+    font-size: 3em;
 }
 
-@media screen and (max-width: 768px) {
-    .details-motd{
-        font-size: 0.7em;
-    }
-    .about-details{
-        font-size: 1.4em;
-        margin-bottom: 10px;
+.url-container{
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-align: center;
+    transition: 0.5s;
+}
+.url-container:active{
+    transform: scale(0.75);
+}
+
+@media screen and (max-width: 576px) {
+    .detailsMotd{
+        font-size: 1em;
     }
 }
+
+@media screen and (max-width: 768px) and (min-width: 576px) {
+    .detailsMotd{
+        font-size: 1.5em;
+    }
+    .url-container{
+        font-size: 2em;
+    }
+    body{
+        background-color: rebeccapurple;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 769px) {
+    .detailsMotd{
+        font-size: 2em;
+    }
+}
+
 
 .players{
-    position: relative;
-    max-width: 45vw;
-    left: -2.5vw;
-    max-height: 5vh;
+    color: red;
+}
+
+.detail-tags{
+    margin-bottom: 10px;
 }
 
 .version {
-    right: 2.5vw;
-    position: relative;
-    max-width: 45vw;
+    color: green;
+}
+
+.detailsAbout{
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    max-height: 5vh;
 }
 

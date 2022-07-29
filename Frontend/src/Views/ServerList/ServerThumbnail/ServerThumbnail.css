@@ -56,6 +56,7 @@
     color: #999999;
     height: 100%; overflow: auto;
     padding-bottom: 1em;
+    font-size: 1.6em;
 }
 
 .serverCard-players{

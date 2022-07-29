@@ -12,6 +12,7 @@ class ServerDetails extends React.Component {
         this.state = {
             server: {tags: []},
         }
+        this.copyUrlToClipboard = this.copyUrlToClipboard.bind(this);
     }
 
     async getServer(){
@@ -28,30 +29,38 @@ class ServerDetails extends React.Component {
             server: await this.getServer(),
         });
     }
+
+    copyUrlToClipboard(){
+        const url = this.state.server.url;
+        navigator.clipboard.writeText(url);
+    };
+
     render() {
         let tags;
         let motd;
         if(this.state.server.tags === undefined)
             tags = <div>Loading...</div>;
         else
-            tags = <Tags tags={this.state.server.tags}/>
+            tags = <Tags className='detail-tags' tags={this.state.server.tags}/>
         if(this.state.server.motd === undefined)
             motd = <div>Loading...</div>
         else
-            motd = <div  className='detailsMotd'><Motd motd={this.state.server.motd}/></div>
+            motd = <div><Motd motd={this.state.server.motd}/></div>
         return (
             <div>
                 <div className='title minecraft'>
                     <img src={this.state.server.image} alt={this.state.server.serverId} className='logo serverDetailLogo'/>
                     {this.state.server.name}
                 </div>
-                <div className='about-details minecraft'>
-                    <span className='players'>Players: {this.state.server.players}/{this.state.server.maxPlayers} </span>
-                    <span className='version'>Version: {this.state.server.version}</span>
+                <div className='minecraft url-container' onClick={this.copyUrlToClipboard}>Url: {this.state.server.url}<div style={{fontSize:'0.5em'}}>Click to copy</div></div>
+                <div className='detail-info minecraft'>
+                    <span>Players: {this.state.server.players}/{this.state.server.maxPlayers} </span>
+                    <span>Version: {this.state.server.version}</span>
                 </div>
-                {motd}
-                {this.state.server.about}<br/>
                 {tags}
+                <div className='detailsMotd'>{motd}</div>
+                <div className='detailsAbout'>{this.state.server.about}</div>
+
             </div>
         );
     }
