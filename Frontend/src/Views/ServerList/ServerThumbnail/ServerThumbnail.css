@@ -55,6 +55,7 @@
 .serverCard-motd{
     color: #999999;
     height: 100%; overflow: auto;
+    padding-bottom: 1em;
 }
 
 .serverCard-players{
@@ -68,6 +69,14 @@
     font-size: 0.8em;
 }
 
+
+.serverCard-tags{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.7em;
+}
+
 @media screen and (max-width: 518px) {
     .serverCard-players{
         top: 7px;
@@ -78,7 +87,7 @@
 .serverCard-content{
     position: relative;
     left: 155px;
-    
     max-width: calc(100% - 160px);
 }
+
     

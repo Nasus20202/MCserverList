@@ -1,0 +1,37 @@
+.serverDetailLogo {
+    border-radius: 10px;
+}
+
+.about-details{
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    max-height: 5vh;
+}
+
+.detailsMotd{
+    margin-top: 5vh;
+}
+
+@media screen and (max-width: 768px) {
+    .details-motd{
+        font-size: 0.7em;
+    }
+    .about-details{
+        font-size: 1.4em;
+        margin-bottom: 10px;
+    }
+}
+
+.players{
+    position: relative;
+    max-width: 45vw;
+    left: -2.5vw;
+    max-height: 5vh;
+}
+
+.version {
+    right: 2.5vw;
+    position: relative;
+    max-width: 45vw;
+}
+

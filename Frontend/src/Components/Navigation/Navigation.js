@@ -20,7 +20,7 @@ class Navigation extends React.Component {
                   </div>
                   <Nav>
                     <Nav><Link className='links' to="/new">Submit your server!</Link></Nav>
-                    <Nav><Link className='links' to="/ADEAAA2D-551F-4B8A-BFF5-B0D91BE4B8D1">About {config.name}</Link></Nav>
+                    <Nav><Link className='links' to="/about">About {config.name}</Link></Nav>
                     <Nav className='links' style={{marginTop:'4px'}} onClick={this.props.toggleTheme}>{this.props.theme === 'dark' ? <BsFillSunFill /> : <BsMoonFill />}</Nav>
                   </Nav>
                 </Navbar.Collapse>

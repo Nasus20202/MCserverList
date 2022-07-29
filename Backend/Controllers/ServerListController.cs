@@ -116,6 +116,8 @@ public class ServerListController : Controller
         {
             var servers = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1) && s.Players > 0).Include(s => s.Tags).ToList();
             var random = new Random();
+            if (servers.Count == 0)
+                return Json(new Server("Not found", "https://developer.mozilla.org/pl/docs/Web/HTTP/Status/404", false, "No server found"));
             server = servers[random.Next(servers.Count)];
         }
         server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";

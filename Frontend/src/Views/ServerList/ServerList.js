@@ -10,7 +10,7 @@ class ServerList extends React.Component {
             page:0,
             servers: [],
             total: 0,
-            amount: 2,
+            amount: 1,
             all: false,
             randomServer: [],
             ids: []
@@ -48,7 +48,6 @@ class ServerList extends React.Component {
         let json = await  fetch(
             `${config.url}servers/${page}?amount=${amount}`)
             .then(response => response.json())
-            //console.log(json)
         if(json.length === 0){
             this.setState({
                 all: true
