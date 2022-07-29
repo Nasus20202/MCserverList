@@ -1,0 +1,53 @@
+.title {
+    margin: auto;
+    width:fit-content;
+    font-size: 7.5em;
+    transition-duration: 0.3s;
+    position: relative;
+    white-space: nowrap;
+}
+
+.title:hover{
+    transform: scale(1.05);
+}
+
+.logo {
+    width: 2.5em;
+    margin-right: 20px;
+    width: 150px;
+    position: relative;
+    top: -10px;
+}
+
+.about{
+    margin: auto;
+    font-size: 3em;
+    margin-bottom: 20px;
+    width:fit-content;
+    white-space: nowrap;
+}
+
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 5em;
+    }
+    .logo {
+        width: 75px;
+    }
+    .about {
+        font-size: 2em;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .title {
+        font-size: 3em;
+    }
+    .logo {
+        width: 50px;
+    }
+    .about {
+        font-size: 1.5em;
+    }
+}

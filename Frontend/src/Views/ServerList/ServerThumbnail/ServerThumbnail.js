@@ -2,6 +2,7 @@ import React from 'react';
 import './ServerThumbnail.css'
 import { ThemeContext } from '../../../App';
 import {Link} from 'react-router-dom';
+import Motd from '../../../Components/Motd/Motd';
 
 class ServerThumbnail extends React.Component{
     static contextType = ThemeContext;
@@ -19,7 +20,7 @@ class ServerThumbnail extends React.Component{
                 </div>
                 <div className='serverCard-content'>
                     <div className='serverCard-name'><span className='serverCard-place'>{place} </span>{this.server.name}</div>
-                    <div className='serverCard-motd'>{this.server.motd}</div>
+                    <div className='serverCard-motd'><Motd motd={this.server.motd} /></div>
                     <div className='serverCard-players'>{this.server.players}/{this.server.maxPlayers}</div></div>
                 </div>
             </Link>

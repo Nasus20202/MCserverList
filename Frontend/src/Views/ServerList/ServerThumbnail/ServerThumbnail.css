@@ -43,15 +43,16 @@
 .serverCard-image{
     border-radius: 10px 0px 0px 10px;
     width: 150px;
+    position: relative;
+    top: calc(50% - 75px);
 }
 
 .serverCard-name{
-    font-size: 1.4em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
 .serverCard-motd{
-    font-size: 0.8em;
     color: #999999;
     height: 100%; overflow: auto;
 }
@@ -67,7 +68,11 @@
     font-size: 0.8em;
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 518px) {
+    .serverCard-players{
+        top: 7px;
+        left: -143px;
+    }
 }
 
 .serverCard-content{

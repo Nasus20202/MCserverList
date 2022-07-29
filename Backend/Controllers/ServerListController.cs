@@ -114,7 +114,7 @@ public class ServerListController : Controller
         Server server;
         using (var db = new Database.Database())
         {
-            var servers = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1)).Include(s => s.Tags).ToList();
+            var servers = db.Servers.Where(s => DateTime.Now < s.LastOnline.AddDays(1) && s.Players > 0).Include(s => s.Tags).ToList();
             var random = new Random();
             server = servers[random.Next(servers.Count)];
         }

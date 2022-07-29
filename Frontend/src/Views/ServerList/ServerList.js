@@ -15,6 +15,7 @@ class ServerList extends React.Component {
             randomServer: [],
             ids: []
         }
+        this.randomServer = {};
         this.scrollListener = this.scrollListener.bind(this);
     }
 
@@ -84,6 +85,7 @@ class ServerList extends React.Component {
             randomServer: [await this.getRandomServer()],
             total: await this.getTotalServers(),
         });
+        this.randomServer = await this.getRandomServer();
         while(document.documentElement.clientHeight * 2 > document.documentElement.scrollHeight && !this.state.all){
             await this.addServersToView();
         }
@@ -100,15 +102,21 @@ class ServerList extends React.Component {
         let randomServer = this.state.randomServer.map((server) => {
                 return <div key={server.serverId}><ServerThumbnail server={server}/></div>
         });
-        // random server is kinda strange
         return(
             <div>
-                <div className='h1 minecraft'>
+                <div className='title minecraft'>
+                    <img src='/logo.png' alt={config.name} className='logo'/>
+                    {config.name}
+                </div>
+                <div className='about minecraft'>
+                    Minecraft Server List
+                </div>
+                <div className='h3 minecraft'>
                     Random server
                 </div>
                 {randomServer}
                 <div className='h1 minecraft'>
-                    Server List   {this.state.page} page, {this.state.total} servers total
+                    We have {this.state.total} online servers in our database!
                 </div>
                 {servers}
             </div>
