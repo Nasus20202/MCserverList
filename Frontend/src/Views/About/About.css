@@ -1,0 +1,8 @@
+.githubLink {
+    margin-top: 10px;
+    color: gray;
+    transition: 0.3s;
+}
+.githubLink:hover {
+    color: darkgray;
+}
