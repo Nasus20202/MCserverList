@@ -11,7 +11,7 @@ class Motd extends React.Component
         let prevColor = '';
         this.props.motd.split('\u00a7').forEach((element, index)=> {
             let colorCode = element.slice(0,1);
-            const text = element.slice(1);
+            const text = element.slice(1).replace('\\n','\n');;
             let part;
             if(colorCode === 'l'){
                 bold = true;

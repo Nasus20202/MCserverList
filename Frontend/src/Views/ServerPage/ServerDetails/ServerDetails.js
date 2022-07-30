@@ -55,7 +55,7 @@ class ServerDetails extends React.Component {
                 <div className='minecraft url-container' onClick={this.copyUrlToClipboard}>Url: {this.state.server.url}<div style={{fontSize:'0.5em'}}>Click to copy</div></div>
                 <div className='detail-info minecraft'>
                     <span>Players: {this.state.server.players}/{this.state.server.maxPlayers} </span>
-                    <span>Version: {this.state.server.version}</span>
+                    <span>Version: {this.state.server.version} {this.state.server.premium ? "Premium" : "Non-Premium"}</span>
                 </div>
                 {tags}
                 <div className='detailsMotd'>{motd}</div>

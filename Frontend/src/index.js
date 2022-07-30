@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ServerList from './Views/ServerList/ServerList';
 import ServerPage from './Views/ServerPage/ServerPage';
-import NewServer from './Views/NewServer/NewServer';
+import NewServerHook from './Views/NewServer/NewServerHook';
 import About from './Views/About/About';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -16,7 +16,7 @@ root.render(
       <Route path="/" element={<App />}>
         <Route index element={<ServerList />} />
         <Route path=":serverId" element={<ServerPage />} />
-        <Route path="/new" element={<NewServer />} />
+        <Route path="/new" element={<NewServerHook />} />
         <Route path="/about" element={<About />} />
       </Route>
 

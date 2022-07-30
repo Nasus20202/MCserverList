@@ -112,11 +112,10 @@ public class ServerInfoUpdater
             var players = response?["players"]["online"];
             var maxPlayers = response?["players"]["max"];
             var desc = response?["description"];
-            // giga tasty 
             JToken motd = desc;
             if (desc.ToString().Contains("{"))
             {
-                var descObj = (JObject)desc;
+                /*var descObj = (JObject)desc;
                 if (descObj.ContainsKey("extra"))
                 {
                     string value = "";
@@ -128,19 +127,47 @@ public class ServerInfoUpdater
                     motd = JsonConvert.SerializeObject(value, Formatting.Indented);
                 }
                 else if (descObj.ContainsKey("text"))
-                    motd = (JToken) descObj["text"];
+                    motd = (JToken) descObj["text"];*/
+
+                var jobject = desc as JObject;
+                if(jobject.ContainsKey("extra"))
+                    motd = JsonConvert.SerializeObject(diveIntoMotd(jobject, ""), Formatting.Indented);
+                else if (jobject.ContainsKey("text"))
+                    motd = (JToken) jobject["text"];
             }
+
+
 
             var image = response?["favicon"];
             serverData = new ServerData(version.Value<string>(), motd.Value<string>(), players.Value<int>(), maxPlayers.Value<int>(), image.Value<string>());
         }
-        catch (Exception e)
+        catch (TimeoutException e)
         {
             Console.WriteLine(server.Url + " : " + e.Message);
             return null; //Data is corrupted... or to be clear, my code is bugged
         }
 
         return serverData;
+    }
+
+    internal static string diveIntoMotd(JObject obj, string value)
+    {
+        if (obj.ContainsKey("extra"))
+        {
+            foreach (var obj2 in obj["extra"])
+            {
+                
+                value += obj2["text"];
+                var obj3 = obj2 as JObject;
+                if (obj3 == null)
+                    return value;
+                if (obj3.ContainsKey("extra"))
+                {
+                    value = diveIntoMotd((JObject)obj3, value);
+                }
+            }
+        }
+        return value;
     }
 
     public class ServerData

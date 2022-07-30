@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseCors(options => options.AllowAnyOrigin()); // Todo: Change this to allow only website
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader()); // Todo: Change this to allow only website
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

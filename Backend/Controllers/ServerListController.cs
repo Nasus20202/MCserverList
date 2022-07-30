@@ -69,7 +69,6 @@ public class ServerListController : Controller
             }
             db.SaveChanges();
         }
-        //ServerInfoUpdater.UpdateServerInfo(server);
 
         return Created(server.Name, server);
     }

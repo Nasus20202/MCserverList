@@ -10,7 +10,7 @@ class ServerList extends React.Component {
             page:0,
             servers: [],
             total: 0,
-            amount: 1,
+            amount: 25,
             all: false,
             randomServer: [],
             ids: []
