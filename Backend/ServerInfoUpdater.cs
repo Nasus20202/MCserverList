@@ -33,8 +33,6 @@ public class ServerInfoUpdater
             foreach (var server in servers)
             {
                 UpdateServerInfo(server);
-                Thread.Sleep(1000);
-                //Console.WriteLine("Updated " + server.Name);
             }
             Thread.Sleep(3600000);
         }
@@ -113,34 +111,19 @@ public class ServerInfoUpdater
             var players = response?["players"]["online"];
             var maxPlayers = response?["players"]["max"];
             var desc = response?["description"];
-            JToken motd = desc;
+            string motd = desc.ToString();
             if (desc.ToString().Contains("{"))
             {
-                /*var descObj = (JObject)desc;
-                if (descObj.ContainsKey("extra"))
-                {
-                    string value = "";
-                    foreach (var obj in descObj["extra"])
-                    {
-                        value += obj["text"];
-                    }
-
-                    motd = JsonConvert.SerializeObject(value, Formatting.Indented);
-                }
-                else if (descObj.ContainsKey("text"))
-                    motd = (JToken) descObj["text"];*/
-
                 var jobject = desc as JObject;
-                if(jobject.ContainsKey("extra"))
-                    motd = JsonConvert.SerializeObject(diveIntoMotd(jobject, ""), Formatting.Indented);
+                if (jobject.ContainsKey("extra"))
+                    motd = diveIntoMotd(jobject, "") + jobject["text"];
                 else if (jobject.ContainsKey("text"))
-                    motd = (JToken) jobject["text"];
+                    motd = jobject["text"].ToString();
             }
-
-
-
             var image = response?["favicon"];
-            serverData = new ServerData(version.Value<string>(), motd.Value<string>(), players.Value<int>(), maxPlayers.Value<int>(), image.Value<string>());
+            if (image == null)
+                image = JsonConvert.SerializeObject("");
+            serverData = new ServerData(version.Value<string>(), motd, players.Value<int>(), maxPlayers.Value<int>(), image.Value<string>());
         }
         catch (Exception e)
         {
@@ -151,13 +134,56 @@ public class ServerInfoUpdater
         return serverData;
     }
 
+    internal static char getColorChar(string color)
+    {
+        switch (color)
+        {
+            case "black":
+                return '0';
+            case "dark_blue":
+                return '1';
+            case "dark_green":
+                return '2';
+            case "dark_aqua":
+                return '3';
+            case "dark_red":
+                return '4';
+            case "dark_purple":
+                return '5';
+            case "gold":
+                return '6';
+            case "gray":
+                return '7';
+            case "dark_gray":
+                return '8';
+            case "blue":
+                return '9';
+            case "green":
+                return 'a';
+            case "aqua":
+                return 'b';
+            case "red":
+                return 'c';
+            case "light_purple":
+                return 'd';
+            case "yellow":
+                return 'e';
+            case "white":
+                return 'f';
+        }
+        return 'o';
+    }
+
     internal static string diveIntoMotd(JObject obj, string value)
     {
         if (obj.ContainsKey("extra"))
         {
             foreach (var obj2 in obj["extra"])
             {
-                
+                if (obj2["color"] != null)
+                    value += $"\u00A7{getColorChar(obj2["color"].ToString())}";
+                if(obj2["bold"] != null && obj2["bold"].ToString() == "true")
+                    value += "\u00A7l";
                 value += obj2["text"];
                 var obj3 = obj2 as JObject;
                 if (obj3 == null)
@@ -168,7 +194,7 @@ public class ServerInfoUpdater
                 }
             }
         }
-        return value;
+        return value + obj["text"];;
     }
 
     public class ServerData

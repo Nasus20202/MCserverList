@@ -86,7 +86,18 @@ public class ServerListController : Controller
             var server = db.Servers.FirstOrDefault(s => s.ServerId == guid);
             if (server is null)
                 return NotFound();
-            byte[] bytes = Convert.FromBase64String(server.Image.Split(',')[1]);
+            byte[] bytes;
+            try
+            {
+                bytes = Convert.FromBase64String(server.Image.Split(',')[1]);
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+                // empty placeholder file
+                bytes = Convert.FromBase64String(
+                    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==");
+            }
+
             return File(bytes, "image/png");
         }
     }
