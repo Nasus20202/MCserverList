@@ -75,13 +75,19 @@ public class ServerInfoUpdater
         _stream.ReadTimeout = 1000;
         _stream.WriteTimeout = 1000;
 
-        WriteVarInt(47);
-        WriteString(server.Url);
-        WriteShort(25565);
-        WriteVarInt(1);
-        Flush(0);
-        
-        Flush(0);
+        try{
+            WriteVarInt(47);
+            WriteString(server.Url);
+            WriteShort(25565);
+            WriteVarInt(1);
+            Flush(0);
+            Flush(0);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"{server.Url} : {e.Message}");
+            return null;
+        }
         string json;
         byte[] data = new byte[1024];
         using (MemoryStream ms = new MemoryStream())
