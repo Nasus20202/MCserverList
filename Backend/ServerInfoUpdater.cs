@@ -74,6 +74,8 @@ public class ServerInfoUpdater
         }
         _buffer = new List<byte>();
         _stream = client.GetStream();
+        _stream.ReadTimeout = 1000;
+        _stream.WriteTimeout = 1000;
 
         WriteVarInt(47);
         WriteString(server.Url);
@@ -84,7 +86,6 @@ public class ServerInfoUpdater
         Flush(0);
         string json;
         byte[] data = new byte[1024];
-        _stream.ReadTimeout = 1000;
         using (MemoryStream ms = new MemoryStream())
         {
             int numBytesRead ;
@@ -141,7 +142,7 @@ public class ServerInfoUpdater
             var image = response?["favicon"];
             serverData = new ServerData(version.Value<string>(), motd.Value<string>(), players.Value<int>(), maxPlayers.Value<int>(), image.Value<string>());
         }
-        catch (TimeoutException e)
+        catch (Exception e)
         {
             Console.WriteLine(server.Url + " : " + e.Message);
             return null; //Data is corrupted... or to be clear, my code is bugged
