@@ -37,9 +37,6 @@
     .url-container{
         font-size: 2em;
     }
-    body{
-        background-color: rebeccapurple;
-    }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 769px) {
