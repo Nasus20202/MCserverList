@@ -1,7 +1,5 @@
-﻿using System;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServerList.Database.Entities;
@@ -30,10 +28,12 @@ public class ServerInfoUpdater
             {
                 servers = db.Servers.ToList();
             }
+            Console.WriteLine("Updating server info");
             foreach (var server in servers)
             {
                 UpdateServerInfo(server);
             }
+            Console.WriteLine("Server info updated");
             Thread.Sleep(3600000);
         }
     }
@@ -107,8 +107,7 @@ public class ServerInfoUpdater
 
             json = Encoding.UTF8.GetString(ms.ToArray(), 0, (int)ms.Length);
         }
-        if(json.Length > 5)
-            json = json.Remove(0, 5);
+        json = json.Substring(json.IndexOf("{")); // remove random characters at the start
         ServerData? serverData;
         try
         {
@@ -186,6 +185,10 @@ public class ServerInfoUpdater
         {
             foreach (var obj2 in obj["extra"])
             {
+                if (!obj2.HasValues) {
+                    value += '\n';
+                    continue;
+                }
                 if (obj2["color"] != null)
                     value += $"\u00A7{getColorChar(obj2["color"].ToString())}";
                 if(obj2["bold"] != null && obj2["bold"].ToString() == "true")
