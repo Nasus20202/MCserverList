@@ -107,7 +107,9 @@ public class ServerInfoUpdater
 
             json = Encoding.UTF8.GetString(ms.ToArray(), 0, (int)ms.Length);
         }
-        json = json.Substring(json.IndexOf("{")); // remove random characters at the start
+        if (json.Contains("{")) {
+            json = json.Substring(json.IndexOf("{")); // remove random characters at the start
+        }
         ServerData? serverData;
         try
         {
