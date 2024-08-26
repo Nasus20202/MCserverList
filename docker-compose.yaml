@@ -1,0 +1,13 @@
+services:
+  backend:
+    build: ./Backend
+    container_name: mc-server-list-backend
+    restart: always
+    volumes:
+      - ./data:/app/data
+  frontend:
+    build: ./Frontend
+    container_name: mc-server-list-frontend
+    restart: always
+    ports:
+      - "8080:8080"
