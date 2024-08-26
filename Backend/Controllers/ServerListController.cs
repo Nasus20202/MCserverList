@@ -19,12 +19,12 @@ public class ServerListController : Controller
         }
         foreach (var server in servers)
         {
-            server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+            server.Image = $"/servers/img/{server.ServerId}.png";
         }
 
         return Json(servers);
     }
-    
+
     public class CreateServerModel
     {
         public string Name { get; set; } = "";
@@ -53,7 +53,7 @@ public class ServerListController : Controller
             var serverInfo = ServerInfoUpdater.GetServerInfo(server);
             if (serverInfo is null)
                 return NotFound("Server " + server.Url + " is offline or query is not enabled");
-            server.Image = serverInfo.Image; 
+            server.Image = serverInfo.Image;
             server.Motd = serverInfo.Motd;
             server.Version = serverInfo.Version;
             server.Players = serverInfo.Players;
@@ -113,10 +113,10 @@ public class ServerListController : Controller
         }
         if (server == null)
             return NotFound();
-        server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+        server.Image = $"/servers/img/{server.ServerId}.png";
         return Json(server);
     }
-    
+
     [HttpGet]
     [Route("/servers/random")]
     public IActionResult GetRandomServer()
@@ -130,10 +130,10 @@ public class ServerListController : Controller
                 return Json(new Server("Not found", "https://developer.mozilla.org/pl/docs/Web/HTTP/Status/404", false, "No server found"));
             server = servers[random.Next(servers.Count)];
         }
-        server.Image = $"{Request.Scheme}://{Request.Host}/servers/img/{server.ServerId}.png";
+        server.Image = $"/servers/img/{server.ServerId}.png";
         return Json(server);
     }
-    
+
     [HttpGet]
     [Route("/servers/count")]
     public IActionResult GetServerCount()
@@ -145,5 +145,5 @@ public class ServerListController : Controller
         }
         return Ok(count);
     }
-    
+
 }

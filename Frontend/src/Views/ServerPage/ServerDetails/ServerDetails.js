@@ -48,7 +48,7 @@ class ServerDetails extends React.Component {
       <div>
         <div className="title minecraft">
           <img
-            src={this.state.server.image}
+            src={apiURL + this.state.server.image}
             alt={this.state.server.serverId}
             className="logo serverDetailLogo"
           />

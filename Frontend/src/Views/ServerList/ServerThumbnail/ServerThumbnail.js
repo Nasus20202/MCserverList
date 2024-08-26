@@ -4,6 +4,7 @@ import { ThemeContext } from "../../../App";
 import { Link } from "react-router-dom";
 import Motd from "../../../Components/Motd/Motd";
 import Tags from "../../../Components/Tags/Tags";
+import { apiURL } from "../../../config";
 
 class ServerThumbnail extends React.Component {
   static contextType = ThemeContext;
@@ -29,7 +30,7 @@ class ServerThumbnail extends React.Component {
             style={{ minWidth: "150px" }}
           >
             <img
-              src={this.server.image}
+              src={apiURL + this.server.image}
               alt={this.server.name}
               className="serverCard-image"
             />
