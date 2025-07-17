@@ -30,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: docker.io/${{ vars.DOCKERHUB_USERNAME }}/cubelist/backend
+          images: docker.io/${{ vars.DOCKERHUB_USERNAME }}/cubelist-backend
           tags: |
             latest
             type=sha
@@ -64,7 +64,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: docker.io/${{ vars.DOCKERHUB_USERNAME }}/cubelist/frontend
+          images: docker.io/${{ vars.DOCKERHUB_USERNAME }}/cubelist-frontend
           tags: |
             latest
             type=sha
