@@ -1,12 +1,12 @@
 services:
   backend:
-    image: nasus20202/cubelist-backend:latest
+    build: ./Backend
     container_name: mc-server-list-backend
     restart: always
     volumes:
       - ./data:/app/data
   frontend:
-    image: nasus20202/cubelist-frontend:latest
+    build: ./Frontend
     container_name: mc-server-list-frontend
     restart: always
     ports:
